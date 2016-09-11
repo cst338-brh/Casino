@@ -20,6 +20,13 @@ public class Assig2 {
       /* TODO: "Submit one run that lasts about 20 to 40 pulls -- enough to see a few wins.  At least once enter an illegal amount 
        * to make sure that your program handles it correctly." */
       // TODO: Close scanner at end of program
+      
+      
+      // Testing for TripleString class method
+      TripleString ts = new TripleString();
+      ts.test(); // TODO: Remove this!
+      
+      
    }
    
    public static int getBet() {
@@ -83,48 +90,131 @@ class TripleString {
    public static final int MAX_PULLS = 40;   // Max number of pulls
    private static int numPulls = 0;          // Pull count
    private static int[] pullWinnings = new int[MAX_PULLS];
-   private String string1 = "", string2 = "", string3 = "";
+   private String string1,string2,string3;
    
+   // Default constructor
    public TripleString() {
-      // TODO: Default constructor
+      string1 = "";
+      string2 = "";
+      string3 = "";
    }
    
+   // TODO: Temporary method to test this class. Remove this before turning in!
+   public void test() {
+      // Check that accessors doesn't break when nothing has been set
+      System.out.println("String 1: " + getString1());
+      System.out.println("String 2: " + getString2());
+      System.out.println("String 3: " + getString3());
+      System.out.println("To String: " + toString());
+      System.out.println("Winnings: " + displayWinnings());
+      
+      // Check setting various strings with mutator methods
+      boolean testCheck;
+      String[] testString = {null,"","This is 20 character","This is 21 characters","BAR","7","CHERRIES","(SPACE)"};
+      for (int i = 0; i < testString.length; i++) {
+         testCheck = setString1(testString[i]);
+         System.out.println("Testing '" + testString[i] + "' string. Successful: " + testCheck);
+      }
+      
+      // Check that string accessors work after things have been set
+      setString2("BAR");
+      setString3("CHERRIES");
+      System.out.println("String 1: " + getString1());
+      System.out.println("String 2: " + getString2());
+      System.out.println("String 3: " + getString3());
+      System.out.println("To String: " + toString());
+      
+      // Check winnings array
+      saveWinnings(5);
+      System.out.println("Winnings: " + displayWinnings());
+      // Fill array and go one past max pull count
+      for (int i = 2; i < 42; i ++) {
+         System.out.println(i + " " + saveWinnings(i));
+      }
+      System.out.println("Winnings: " + displayWinnings());
+   }
+   
+   // Check that a given string is not null and is less than or equal to the maximum allowable length
+   // Return true if string is valid; otherwise return false
    private boolean validString(String str) {
-      // TODO: Helper function to determine if a string is legal
-      // Return true if string is not null and its length <= MAX_LEN; otherwise return false
+      if (str != null && str.length() <= MAX_LEN) {
+         return true;
+      } else {
+         return false;
+      }
    }
-   
+
+   // Return the value of string1
    public String getString1() {
       return string1;
    }
    
-   public boolean setString1(String str) {
-      // TODO: Mutator to update value of string1
-      // Should check string with validString() and only update if data is valid
-      // Return true for successful update, false otherwise
-   }
-   
+   // Return the value of string2
    public String getString2() {
       return string2;
    }
    
-   public boolean setString2(String str) {
-      // TODO: Mutator to update value of string2
-      // Should check string with validString() and only update if data is valid
-      // Return true for successful update, false otherwise
-   }
-   
+   // Return the value of string3
    public String getString3() {
       return string3;
    }
    
-   public boolean setString3(String str) {
-      // TODO: Mutator to update value of string1
-      // Should check string with validString() and only update if data is valid
-      // Return true for successful update, false otherwise
+   // Update the value of string1 to the given string, if valid
+   // Return true if update is successful; otherwise return false
+   public boolean setString1(String str) {
+      if (validString(str)) {
+         string1 = str;
+         return true;
+      } else {
+         return false;
+      }
    }
    
+   // Update the value of string2 to the given string, if valid
+   // Return true if update is successful; otherwise return false
+   public boolean setString2(String str) {
+      if (validString(str)) {
+         string2 = str;
+         return true;
+      } else {
+         return false;
+      }
+   }
+   
+   // Update the value of string3 to the given string, if valid
+   // Return true if update is successful; otherwise return false
+   public boolean setString3(String str) {
+      if (validString(str)) {
+         string3 = str;
+         return true;
+      } else {
+         return false;
+      }
+   }
+   
+   // Return a string containing the values of string1, string2, and string3
    public String toString() {
       return string1 + " " + string2 + " " + string3;
+   }
+   
+   // If MAX_PULLS count has not been reached, add winnings value to array and update pull count
+   // Return true if insertion is successful; otherwise return false
+   public boolean saveWinnings(int winnings) {
+      if (numPulls < MAX_PULLS) {
+         pullWinnings[numPulls] = winnings;
+         numPulls++;
+         return true;
+      } else {
+         return false;
+      }
+   }
+   
+   // Return string containing all winnings values
+   public String displayWinnings() {
+      String winnings = "";
+      for (int i = 0; i < numPulls; i++) {
+         winnings += " " + pullWinnings[i];
+      }
+      return winnings;
    }
 }
