@@ -15,13 +15,6 @@ public class Assig2
 
    public static void main(String[] args) 
    {
-      // TODO: "a loop that is controlled by a value returned from getBet().  As long as that value is non-zero, we keep playing."
-      /* Each time through the loop, we have to call pull() to get the pullString as a return value. 
-       * Then we need to pass that to getPayMultiplier() to find the multiplier.  We then compute the winnings based on the 
-       * previous information, and finally we display it all using display().  */ 
-      /* TODO: "Submit one run that lasts about 20 to 40 pulls -- enough to see a few wins.  At least once enter an illegal amount 
-       * to make sure that your program handles it correctly." */
-      // TODO: Close scanner at end of program
       
       int betMade = getBet();
       int pullCounter = 0;
@@ -39,7 +32,7 @@ public class Assig2
         pullCounter ++; 
         betMade = getBet();
       }
-      
+           
       // Testing for getBet
       /*
       Integer foo = getBet();
@@ -78,34 +71,21 @@ public class Assig2
       input.close();
    }
    
-   public static int getBet() 
-   {
-      // TODO: Get the bet from the user and return it to main
-      /* "This prompts the user for input and returns the bet amount as a functional return.  
-       * It should validate the amount before it returns and insist on a legal bet (0 < bet < 100) 
-       * until it gets one from the user.  It must return the legal value to the client and not 
-       * take any other action besides getting the legal amount." */
-      /* "The only place the user can make an input error is in getBet(), so that's the method that 
-       * deals with such errors.  Don't worry about non-numbers.  Assume that a number was entered.  
-       * But do test for range and only return to main after you have a valid range. getBet() may 
-       * not decide about ending the program.  That's up to main()." */
-      
+   // Prompt the user for an integer between 0 and 100 and return result
+   public static int getBet() {      
       int betValue = -1;
       
-      do
-      {
-        System.out.print("Please enter your bet (1-100, 0 to exit): ");
-        betValue = input.nextInt();
+      do {
+         System.out.print("Please enter your bet (1-100, 0 to exit): ");
+         betValue = input.nextInt();
       } while (betValue < 0 || betValue > 100);
       
       return betValue;
    }
    
+   // Return a TripleString object which contains 3 randomized slot machine result strings
    public static TripleString pull() 
    {
-      // TODO: Simulate a random pull of the slot machine
-      // Generate three random strings and return them as a TripleString object to main
-      // Use randString() three times to get strings
       TripleString returnTuple = new TripleString();
       returnTuple.setString1(randString());
       returnTuple.setString2(randString());      
@@ -114,58 +94,29 @@ public class Assig2
       return returnTuple;
    }
    
+   // Return a string randomly selected from four possible slot machine results
    public static String randString() 
    {
-      // TODO: Return a randomized string
-      // Use Math.Random() to decide which of 4 strings to return ("BAR", "CHERRIES", "SPACE", "7")
-      /* "Math.random() returns a double between 0 and 1.  One idea (but not the only one) is to 
-       * turn that double into an int  between 1 and 1000.  Then, decide which of those numbers 
-       * should trigger a "7", which should trigger a "cherries", etc. based on the desired probabilities.  
-       * Since a "Bar" should happen half the time, which numbers would you want to trigger a "Bar"?  
-       * Since a "cherries" should happen 25% of the time, which numbers would trigger a "cherries"?  
-       * So you see, this is a very simple -- and even short -- function, even though it has to be 
-       * designed carefully.  Common sense will go a long way here." */
-      /* Probabilities: 
-       * BAR      1/2  (50%)
-       * cherries 1/4  (25%)
-       * space    1/8  (12.5%)
-       * 7        1/8  (12.5%) */
       String returnString = "ERROR";
       double internalRandom = Math.random();
       
-      if (internalRandom >= 0 && internalRandom < .5)
-      {
-         returnString = "BAR";
-      }
-      else if (internalRandom >= .5 && internalRandom < .75)
-      {
-         returnString = "cherries";
-      }
-      else if (internalRandom >= 0.75 && internalRandom < .875)
-      {
-         returnString = "space";
-      }
-      else if (internalRandom >= .875 && internalRandom < 1)
-      {
-         returnString = "7";
+      // Select a string based on different probabilities for each
+      if (internalRandom >= 0 && internalRandom < .5) {
+         returnString = "BAR";         // 50% chance
+      } else if (internalRandom >= .5 && internalRandom < .75) {
+         returnString = "cherries";    // 25% chance
+      } else if (internalRandom >= 0.75 && internalRandom < .875) {
+         returnString = "space";       // 12.5% chance
+      } else if (internalRandom >= .875 && internalRandom < 1) {
+         returnString = "7";           // 12.5% chance
       }
       
       return returnString;
    }
    
+   // Return the appropriate winnings multiplier based on the slot machine result strings
    public static int getPayMultiplier(TripleString thePull) 
    {
-      // TODO: Figure out the payout from the pullString; return one of the values;  0, 5, 15, 30, 50 or 100
-      // Look at the three strings inside the passed-in TripleString object and use if-statements to determine the right value
-      /* The following combinations should pay the bet as shown (note ORDER MATTERS):
-       * cherries  [not cherries]  [any] pays 5 × bet (5 times the bet)
-       * cherries  cherries  [not cherries] pays 15 × bet
-       * cherries  cherries  cherries pays 30 × bet
-       * BAR  BAR  BARpays 50 × bet
-       * 7  7  7 pays 100 × bet */
-      /* "Position counts! If you read the above bullet that contains the warning "ORDER MATTERS", you will see that 
-       * cherries bar cherries pays 5× while cherries cherries bar pays 15× and bar cherries cherries pays nothing." */
-      
       int payoutMult = 0;
       
       if (thePull.getString1() == "cherries")
@@ -199,17 +150,18 @@ public class Assig2
       
    }
    
-   public static void display(TripleString thePull, int winnings) 
-   {
-      // TODO: Show the user the results of the pull and how much they won (or not)
-      /* takes the winnings (a dollar amount) and thePull as parameters and displays the three strings 
-       * inside thePull along with "  sorry - you lost " or "congrats, you won $X". */
-      Integer integerWinnings = winnings;
-      System.out.print(thePull.getString1() + " " + thePull.getString2() + " " 
-      + thePull.getString3() + " || " + integerWinnings.toString() + "\n");
+   // Display the results of a pull and associated winnings
+   public static void display(TripleString thePull, int winnings) {
       
-   }
-
+      // Pull results
+      System.out.print(thePull.getString1() + " " + thePull.getString2() + " " + thePull.getString3());
+      
+      // Winnings
+      if (winnings == 0) {
+         System.out.print("Congrats, you won $" + winnings + "!");
+      } else {
+         System.out.print("Sorry - you lost.");
+      }
 }
 
 class TripleString 
@@ -226,44 +178,6 @@ class TripleString
       string1 = "";
       string2 = "";
       string3 = "";
-   }
-   
-   // TODO: Temporary method to test this class. Remove this before turning in!
-   public void test() 
-   {
-      // Check that accessors doesn't break when nothing has been set
-      System.out.println("String 1: " + getString1());
-      System.out.println("String 2: " + getString2());
-      System.out.println("String 3: " + getString3());
-      System.out.println("To String: " + toString());
-      System.out.println("Winnings: " + displayWinnings());
-      
-      // Check setting various strings with mutator methods
-      boolean testCheck;
-      String[] testString = {null,"","This is 20 character","This is 21 characters","BAR","7","CHERRIES","(SPACE)"};
-      for (int i = 0; i < testString.length; i++) 
-      {
-         testCheck = setString1(testString[i]);
-         System.out.println("Testing '" + testString[i] + "' string. Successful: " + testCheck);
-      }
-      
-      // Check that string accessors work after things have been set
-      setString2("BAR");
-      setString3("CHERRIES");
-      System.out.println("String 1: " + getString1());
-      System.out.println("String 2: " + getString2());
-      System.out.println("String 3: " + getString3());
-      System.out.println("To String: " + toString());
-      
-      // Check winnings array
-      saveWinnings(5);
-      System.out.println("Winnings: " + displayWinnings());
-      // Fill array and go one past max pull count
-      for (int i = 2; i < 42; i ++) 
-      {
-         System.out.println(i + " " + saveWinnings(i));
-      }
-      System.out.println("Winnings: " + displayWinnings());
    }
    
    // Check that a given string is not null and is less than or equal to the maximum allowable length
