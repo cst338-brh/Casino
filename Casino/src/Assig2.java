@@ -13,19 +13,39 @@ public class Assig2 {
    private static Scanner input = new Scanner(System.in);
 
    public static void main(String[] args) {
-      int betMade = getBet();
-      TripleString casinoSpin = new TripleString();
+      boolean playAgain = true;
       
-      while (betMade != 0) {
-        TripleString currentSpin = pull();
-        int payoutMultiplier = getPayMultiplier(currentSpin);
-        int payout = payoutMultiplier * betMade;
-        display(currentSpin, payout);
-        currentSpin.saveWinnings(payout);
+      while (playAgain) {
+        // Get user's bet
+        int bet = getBet();
         
-        betMade = getBet();
+        // End game if user entered 0
+        if (bet == 0) {
+           playAgain = false;
+           continue;
+        }
+        
+        // Simulate a slot machine pull
+        TripleString currentSpin = pull();
+        
+        // Calculate payout
+        int payoutMultiplier = getPayMultiplier(currentSpin);
+        int payout = payoutMultiplier * bet;
+        
+        // Display results
+        display(currentSpin, payout);
+        
+        // Update winnings array
+        playAgain = currentSpin.saveWinnings(payout); // Returns false if max number of pulls reached
       }
       
+      // User has quit or reached max number of pulls
+      // Display all winnings
+      System.out.println("Thanks for playing at the Casino!");
+      System.out.println("Your individual winnings were:");
+      System.out.println(TripleString.displayWinnings());
+      
+      // Close scanner object
       input.close();
            
       // Testing for getBet
@@ -133,13 +153,14 @@ public class Assig2 {
    public static void display(TripleString thePull, int winnings) {
       
       // Pull results
-      System.out.print(thePull.getString1() + " " + thePull.getString2() + " " + thePull.getString3());
+      System.out.println("Whirrrrrr.... Your pull is...");
+      System.out.println(thePull.getString1() + " " + thePull.getString2() + " " + thePull.getString3());
       
       // Winnings
       if (winnings == 0) {
-         System.out.print("Congrats, you won $" + winnings + "!");
+         System.out.println("Sorry - you lost.");
       } else {
-         System.out.print("Sorry - you lost.");
+         System.out.println("Congrats, you won $" + winnings + "!");
       }
    }
 }
@@ -235,7 +256,7 @@ class TripleString {
    }
    
    // Return string containing all winnings values
-   public String displayWinnings() {
+   public static String displayWinnings() {
       String winnings = "";
       for (int i = 0; i < numPulls; i++) {
          winnings += " " + pullWinnings[i];
