@@ -47,42 +47,6 @@ public class Assig2 {
       
       // Close scanner object
       input.close();
-           
-      // Testing for getBet
-      /*
-      Integer foo = getBet();
-      String bar = foo.toString();
-      System.out.print(bar);*/
-      
-      // Testing randString()
-      /*
-      for (int i = 0; i<100; i++)
-      {
-         String testString = randString();
-         System.out.print(testString + "\n");
-      } */
-      
-      // Testing for pull()
-      /*
-      TripleString foobar = pull();
-      System.out.print(foobar.getString1() + "\n");
-      System.out.print(foobar.getString2() + "\n");
-      System.out.print(foobar.getString3());*/
-      
-      // Testing for getPayMultiplier
-      /*
-      for (int i = 0; i < 100; i++)
-      {
-         TripleString testTriple = pull();
-         Integer payout = getPayMultiplier(testTriple);
-         System.out.print(testTriple.getString1() + " " + testTriple.getString2() + " " 
-         + testTriple.getString3() + " || " + payout.toString() + "\n");
-      } */
-        
-      // Testing for TripleString class method
-      //TripleString ts = new TripleString();         
-      //ts.test(); // TODO: Remove this!
-      
    }
    
    // Prompt the user for an integer between 0 and 100 and return result
@@ -158,9 +122,9 @@ public class Assig2 {
       
       // Winnings
       if (winnings == 0) {
-         System.out.println("Sorry - you lost.");
+         System.out.println("Sorry - you lost.\n");
       } else {
-         System.out.println("Congrats, you won $" + winnings + "!");
+         System.out.println("Congrats, you won $" + winnings + "!\n");
       }
    }
 }
@@ -258,9 +222,15 @@ class TripleString {
    // Return string containing all winnings values
    public static String displayWinnings() {
       String winnings = "";
+      int winningTotal = 0;
       for (int i = 0; i < numPulls; i++) {
-         winnings += " " + pullWinnings[i];
+         winnings += " $" + pullWinnings[i];
+         winningTotal += pullWinnings[i];
       }
+                              
+      winnings += "\n Your total winnings were: $";
+      winnings += winningTotal;
+      
       return winnings;
    }
 }
